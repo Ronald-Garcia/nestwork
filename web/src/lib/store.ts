@@ -1,4 +1,4 @@
-// import { atom } from "nanostores";
+import { atom } from "nanostores";
 import { persistentMap } from "@nanostores/persistent";
 import type { UserType } from "@/data/types";
 import { logger } from "@nanostores/logger";
@@ -18,6 +18,12 @@ export function setUser(user: UserType) {
 
 export function clearUser() {
   $user.set(defaultUser);
+}
+
+export const $avatarUrl = atom<string>("");
+
+export function setAvatarUrl(url: string) {
+    $avatarUrl.set(url);
 }
 
 
