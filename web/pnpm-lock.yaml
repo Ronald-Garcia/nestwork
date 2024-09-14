@@ -8,12 +8,24 @@ importers:
 
   .:
     dependencies:
+      '@nanostores/logger':
+        specifier: ^0.4.0
+        version: 0.4.0(nanostores@0.11.3)
+      '@nanostores/persistent':
+        specifier: ^0.10.2
+        version: 0.10.2(nanostores@0.11.3)
       '@nanostores/react':
         specifier: ^0.7.3
         version: 0.7.3(nanostores@0.11.3)(react@18.3.1)
+      '@nanostores/router':
+        specifier: ^0.15.1
+        version: 0.15.1(nanostores@0.11.3)
       '@radix-ui/react-icons':
         specifier: ^1.3.0
         version: 1.3.0(react@18.3.1)
+      '@radix-ui/react-label':
+        specifier: ^2.1.0
+        version: 2.1.0(@types/react-dom@18.3.0)(@types/react@18.3.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@radix-ui/react-slot':
         specifier: ^1.1.0
         version: 1.1.0(@types/react@18.3.5)(react@18.3.1)
@@ -395,12 +407,30 @@ packages:
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
 
+  '@nanostores/logger@0.4.0':
+    resolution: {integrity: sha512-8ipUQgX9udy3Uc9X9b7CFDZQR7DAKa+ZbZlIOcs3F0F1nDEYejffV2UoTQ1oYQ1F+DTXrNZIyZWhw+IWuSqvRQ==}
+    engines: {node: ^18.0.0 || >=20.0.0}
+    peerDependencies:
+      nanostores: '>=0.10.2'
+
+  '@nanostores/persistent@0.10.2':
+    resolution: {integrity: sha512-BEndnLhRC+yP7gXTESepBbSj8XNl8OXK9hu4xAgKC7MWJHKXnEqJMqY47LUyHxK6vYgFnisyHmqq+vq8AUFyIg==}
+    engines: {node: ^18.0.0 || >=20.0.0}
+    peerDependencies:
+      nanostores: ^0.9.0 || ^0.10.0 || ^0.11.0
+
   '@nanostores/react@0.7.3':
     resolution: {integrity: sha512-/XuLAMENRu/Q71biW4AZ4qmU070vkZgiQ28gaTSNRPm2SZF5zGAR81zPE1MaMB4SeOp6ZTst92NBaG75XSspNg==}
     engines: {node: ^18.0.0 || >=20.0.0}
     peerDependencies:
       nanostores: ^0.9.0 || ^0.10.0 || ^0.11.0
       react: '>=18.0.0'
+
+  '@nanostores/router@0.15.1':
+    resolution: {integrity: sha512-uEDiHPjkHGSrqEE4NRuqOLepR6lFmfLQ90c4sLLvwSNiWTY3MxejkD7tALmpj9cN4fmLnqt54r51tCNEHJL+mw==}
+    engines: {node: ^18.0.0 || >=20.0.0}
+    peerDependencies:
+      nanostores: ^0.9.0 || ^0.10.0 || ^0.11.0
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -473,6 +503,19 @@ packages:
     resolution: {integrity: sha512-jQxj/0LKgp+j9BiTXz3O3sgs26RNet2iLWmsPyRz2SIcR4q/4SbazXfnYwbAr+vLYKSfc7qxzyGQA1HLlYiuNw==}
     peerDependencies:
       react: ^16.x || ^17.x || ^18.x
+
+  '@radix-ui/react-label@2.1.0':
+    resolution: {integrity: sha512-peLblDlFw/ngk3UWq0VnYaOLy6agTZZ+MUO/WhVfm14vJGML+xH4FAl2XQGLqdefjNb7ApRg6Yn7U42ZhmYXdw==}
+    peerDependencies:
+      '@types/react': '*'
+      '@types/react-dom': '*'
+      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+      react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
 
   '@radix-ui/react-portal@1.1.1':
     resolution: {integrity: sha512-A3UtLk85UtqhzFqtoC8Q0KvR2GbXF3mtPgACSazajqq6A41mEQgo53iPzY4i6BwDxlIFqWIhiQ2G729n+2aw/g==}
@@ -1910,10 +1953,22 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
 
+  '@nanostores/logger@0.4.0(nanostores@0.11.3)':
+    dependencies:
+      nanostores: 0.11.3
+
+  '@nanostores/persistent@0.10.2(nanostores@0.11.3)':
+    dependencies:
+      nanostores: 0.11.3
+
   '@nanostores/react@0.7.3(nanostores@0.11.3)(react@18.3.1)':
     dependencies:
       nanostores: 0.11.3
       react: 18.3.1
+
+  '@nanostores/router@0.15.1(nanostores@0.11.3)':
+    dependencies:
+      nanostores: 0.11.3
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
@@ -1974,6 +2029,15 @@ snapshots:
   '@radix-ui/react-icons@1.3.0(react@18.3.1)':
     dependencies:
       react: 18.3.1
+
+  '@radix-ui/react-label@2.1.0(@types/react-dom@18.3.0)(@types/react@18.3.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@radix-ui/react-primitive': 2.0.0(@types/react-dom@18.3.0)(@types/react@18.3.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+    optionalDependencies:
+      '@types/react': 18.3.5
+      '@types/react-dom': 18.3.0
 
   '@radix-ui/react-portal@1.1.1(@types/react-dom@18.3.0)(@types/react@18.3.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:

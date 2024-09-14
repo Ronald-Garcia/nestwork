@@ -1,4 +1,4 @@
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "@/hooks/use-toast";
 import { signIn, signOut, signUp } from "@/data/api";
 import { $user, clearUser, setUser } from "@/lib/store";
 import { useStore } from "@nanostores/react";

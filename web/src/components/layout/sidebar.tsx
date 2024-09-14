@@ -3,8 +3,6 @@ import { Button } from "@/components/ui/button";
 import { useStore } from "@nanostores/react";
 import { $router } from "@/lib/router";
 import { openPage } from "@nanostores/router";
-import AddDeckDialog from "../deck/add-deck-dialog";
-import AddCardDialog from "../card/add-card";
 
 const Sidebar = () => {
   const page = useStore($router);
@@ -27,11 +25,7 @@ const Sidebar = () => {
       <Button aria-label={"Search"} variant="ghost" size="icon">
         <MagnifyingGlassIcon className="w-5 h-5" />
       </Button>
-      {page && page.route === "home" && <AddDeckDialog />}
 
-      {page && page.route === "deck" && (
-        <AddCardDialog deckId={parseInt(page.params.deckId)} />
-      )}
     </div>
   );
 };
