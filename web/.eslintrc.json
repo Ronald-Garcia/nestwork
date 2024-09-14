@@ -2,5 +2,5 @@
     "extends": [
       "plugin:prettier/recommended"
     ],
-    "ignorePatterns": ["dist", ".eslintrc.cjs", "*.config.*"],
+    "ignorePatterns": ["dist", ".eslintrc.cjs", "*.config.*"]
   }
