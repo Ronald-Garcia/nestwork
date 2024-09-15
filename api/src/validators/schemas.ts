@@ -61,3 +61,7 @@ export const zSchemaError = (
 export const PostChatSchema = z.object({
     chat: z.string()
 });
+
+export const ConvoIdSchema = z.object({
+  convoId: z.number()
+})

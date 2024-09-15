@@ -34,7 +34,7 @@ app.route("/", conversationRoutes);
 
 app.onError((err, c) => {
   console.error(`${err}`);
-
+  
   if (err instanceof HTTPException) {
     return c.json({ message: err.message })
   }

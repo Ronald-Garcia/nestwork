@@ -12,6 +12,7 @@ import Onboarding from "./components/pages/onboarding";
 
 function App() {
 
+  const [updateMessages, setUpdateMessages] = useState(0);
   const page = useStore($router);
 
   if (!page) {
@@ -40,10 +41,10 @@ function App() {
   return (
     <div className="flex min-h-dvh">
       <div className="flex-1 min-w-[70px] max-w-[400px]">
-        <Sidebar />
+        <Sidebar update={updateMessages} setUpdate={setUpdateMessages} />
       </div>
       <div className="w-full max-w-[800px] mx-auto place-self-end">
-        {page.route === "home" && <Body/>}
+        {page.route === "home" && <Body update={updateMessages}/>}
       </div>
       <div className="flex-1">
         <UserMenu />

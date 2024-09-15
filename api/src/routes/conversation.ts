@@ -1,11 +1,11 @@
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
-import { onBoardSchema, PostChatSchema, signInSchema, signUpSchema, zSchemaError } from "../validators/schemas";
+import { ConvoIdSchema, onBoardSchema, PostChatSchema, signInSchema, signUpSchema, zSchemaError } from "../validators/schemas";
 import { hash, verify } from "@node-rs/argon2";
 import { HTTPException } from "hono/http-exception";
-import { eq, or, SQL } from "drizzle-orm";
+import { and, eq, exists, or, SQL } from "drizzle-orm";
 import { db } from "../db";
-import { aiChats, conversations, userChats, users } from "../db/schema";
+import { aiChats, conversations, userAiChatRelations, userChats, users } from "../db/schema";
 import { lucia } from "../db/auth";
 import { Context } from "../lib/context";
 import { auth } from "../middlewares/auth";
@@ -72,6 +72,55 @@ conversationRoutes.post("/conversation",
             .values({ title, userId: user!.id }).returning().get();
         return c.json(newConvo);
     }
+)
+
+conversationRoutes.get("/conversation/:convoId",
+  authGuard,
+  async (c) => {
+    console.log("Getting messages...");
+    const user = c.get("user");
+    const convoId = c.req.param("convoId");
+
+    console.log("Got id...");
+    const userMessages = await db
+      .select()
+      .from(userChats)
+      .where(eq(userChats.conversationId, parseInt(convoId)));
+
+    const aiMessages = await db
+    .select()
+    .from(aiChats)
+    .where(eq(aiChats.conversationId, parseInt(convoId)));
+
+    const whereClause: (SQL | undefined)[] = []
+
+    aiMessages.forEach(m => {
+      whereClause.push(exists(db.select().from(userAiChatRelations).where(and(eq(userAiChatRelations.userId, users.id), eq(userAiChatRelations.aiChatId, m.id)))));
+    })
+
+    const usersFromAiChat = await db
+          .select({ 
+            name: users.name, 
+            email: users.email,
+            department: users.department,
+            interests: users.interests,
+            projects: users.projects,
+            hobbies: users.hobbies,
+            picture: users.picture
+        })
+          .from(users)
+          .where(or(...whereClause));
+    const usersArray = []
+
+
+      for (let i = 0; i < userMessages.length; i++) {
+      }
+      console.log("returning messages...");
+
+      return c.json({ messages: retArray });
+    
+    
+  }
 )
 
 export default conversationRoutes;

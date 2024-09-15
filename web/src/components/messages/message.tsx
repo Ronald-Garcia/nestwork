@@ -2,7 +2,6 @@ import { Avatar } from "@radix-ui/react-avatar";
 import { AvatarFallback } from "../ui/avatar";
 import { useStore } from "@nanostores/react";
 import { $user } from "@/lib/store";
-import Result from "../results/results";
 
 
 

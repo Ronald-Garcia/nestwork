@@ -38,7 +38,7 @@ export function setMessages(messages: (MessageType | ChatMessageType[])[]) {
   $messages.set(messages);
 }
 
-export function addMessage(message: MessageType | ChatMessageType[]) {
+export function  addMessage(message: MessageType | ChatMessageType[]) {
   $messages.set([...$messages.get(), message]);
 }
 
@@ -54,6 +54,12 @@ export function addConvo(convo: ConversationType) {
 }
 export function setConvo(convos: ConversationType[]) {
   $conversations.set(convos);
+}
+
+export const $convoId = atom(0)
+
+export function setConvoId(id: number) {
+  $convoId.set(id);
 }
 
 DEBUG && logger({ $user, $messages });

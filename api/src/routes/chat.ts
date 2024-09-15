@@ -5,7 +5,7 @@ import { hash, verify } from "@node-rs/argon2";
 import { HTTPException } from "hono/http-exception";
 import { eq, or, SQL } from "drizzle-orm";
 import { db } from "../db";
-import { aiChats, userChats, users } from "../db/schema";
+import { aiChats, userAiChatRelations, userChats, users } from "../db/schema";
 import { lucia } from "../db/auth";
 import { Context } from "../lib/context";
 import { auth } from "../middlewares/auth";
@@ -82,20 +82,38 @@ async function processUsers(userQuery: string): Promise<number[]> {
     return Array.from(allUserIds);
 }
 
-chatRoutes.post("/chat", 
+chatRoutes.post("/chat/:convoId", 
     //zValidator("json", PostChatSchema),
     async (c) => {
         const { chat } = await c.req.json();
-
+        const convoId = await c.req.param("convoId");
         const userIds: number[] = await processUsers(chat);
 
         const whereClause: (SQL | undefined)[] = [];
     
-        userIds.forEach(id => {
+        if (userIds.length !== 0) {
+          userIds.forEach(id => {
             whereClause.push(eq(users.id, id));
         })
+        } else {
+          
+        }
 
+
+        const userChat = await db
+          .insert(userChats)
+          .values({content: chat, conversationId: parseInt(convoId)})
+        
+        const aiChat = await db
+          .insert(aiChats)
+          .values({ conversationId: parseInt(convoId)}).returning().get()
     
+          if (userIds.length !== 0) {
+            const aiRelations = await db
+            .insert(userAiChatRelations)
+            .values(userIds.map(id => { return {aiChatId: aiChat.id, userId: id}}));
+  
+          }
         const user = await db
             .select({ 
                 name: users.name, 

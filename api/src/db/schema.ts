@@ -39,7 +39,7 @@ export const conversations = sqliteTable("conversations", {
 
 export const userChats = sqliteTable("user_chats", {
     id: integer("id").primaryKey({ autoIncrement: true }),
-    title: text("content"),
+    content: text("content"),
     conversationId: integer("conversation_id")
       .notNull()
       .references(() => conversations.id)
@@ -58,9 +58,9 @@ export const userAiChatRelations = sqliteTable("user_ai_chat_relations", {
 
 export const aiChats = sqliteTable("ai_chats", {
   id: integer("id").primaryKey({ autoIncrement: true }),
-  title: text("content"),
   conversationId: integer("conversation_id")
     .notNull()
     .references(() => conversations.id),
+  
 })
 

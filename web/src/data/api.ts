@@ -92,9 +92,9 @@ export const signUp = async (
     return true;
   }
 
-  export const sendMessage = async (chat: string): Promise<ChatMessageType[]> => {
+  export const sendMessage = async (chat: string, convoId: number): Promise<ChatMessageType[]> => {
 
-    const response = await fetch(`${API_URL}/chat`,
+    const response = await fetch(`${API_URL}/chat/${convoId}`,
       {
         method: "POST",
         credentials: "include",
@@ -150,3 +150,17 @@ export const signUp = async (
     const message: ConversationType[] = await response.json();
     return message;
   }
+
+  export const getConvoMessages = async (convoId: number): Promise<(ChatMessageType[] | MessageType)[]> => {
+    const response = await fetch(`${API_URL}/conversation/${convoId}`, {
+      credentials: "include"
+    })
+
+      if (!response.ok) {
+        const { message }: { message: string } = await response.json();
+        throw new Error(message);
+      }
+      const { messages }: { messages: (ChatMessageType[] | MessageType)[] } = await response.json();
+      console.log(messages);
+      return messages;
+  } 

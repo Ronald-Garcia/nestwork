@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { getConversations } from "@/data/api";
 
 
-const Conversations = () => {
+const Conversations = ({update, setUpdate}: {update: number, setUpdate: React.Dispatch<React.SetStateAction<number>>}) => {
 
     const conversations = useStore($conversations);
 
@@ -21,7 +21,7 @@ const Conversations = () => {
 
             {conversations.map(c => {
                 return (
-                    <Conversation subject={c.title}></Conversation>
+                    <Conversation subject={c.title} convoId={c.id} update={update} setUpdate={setUpdate}></Conversation>
                 )
 
             })}

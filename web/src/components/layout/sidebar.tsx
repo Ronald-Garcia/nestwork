@@ -7,7 +7,7 @@ import UserDropdownMenu from "./user-dropdown";
 import { Separator } from "../ui/separator";
 import Conversations from "../conversation/conversations";
 
-const Sidebar = () => {
+const Sidebar = ({update, setUpdate}: {update: number, setUpdate: React.Dispatch<React.SetStateAction<number>>}) => {
   const page = useStore($router);
 
   const navigateHome = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -22,7 +22,7 @@ const Sidebar = () => {
         <div className="text-xl font-bold">
           Conversations
         </div>
-        <Conversations></Conversations>
+        <Conversations update={update} setUpdate={setUpdate}></Conversations>
       </div>
 
         <div className="flex-col space-y-1">

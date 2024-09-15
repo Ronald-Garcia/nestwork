@@ -27,5 +27,6 @@
   }
 
   export type ConversationType = {
+    id: number;
     title: string;
   }

@@ -5,5 +5,6 @@ export interface Context extends Env {
   Variables: {
     user: User | null;
     session: Session | null;
+    conversation_id: number | null;
   };
 }
