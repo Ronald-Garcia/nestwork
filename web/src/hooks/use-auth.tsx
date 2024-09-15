@@ -1,5 +1,5 @@
 import { toast } from "@/hooks/use-toast";
-import { signIn, signOut, signUp } from "@/data/api";
+import { signIn, signOut, signUp, validateSession } from "@/data/api";
 import { $user, clearUser, setUser } from "@/lib/store";
 import { useStore } from "@nanostores/react";
 
@@ -48,7 +48,17 @@ function useAuth() {
     }
   };
 
-  return { user, login, register, logout };
+  const validate = async () => {
+    try {
+      const success = await validateSession();
+      return success;
+    } catch (err) {
+      return false;
+    }
+  };
+
+
+  return { user, login, register, logout, validate };
 }
 
 export default useAuth;

@@ -1,11 +1,14 @@
-import Header from "./header";
+import Messages from "../messages/messages";
+import Footer from "./footer";
 
 const Body = () => {
 
+
     return (
-        <>
-            Hello
-        </>
+        <div className="">
+        <Messages></Messages>
+        <Footer></Footer>
+        </div>
     );
 };
 

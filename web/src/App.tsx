@@ -8,6 +8,7 @@ import Sidebar from "./components/layout/sidebar";
 import Body from "./components/layout/body";
 import { Toaster } from "./components/ui/toaster";
 import UserMenu from "./components/layout/user-menu";
+import Onboarding from "./components/pages/onboarding";
 
 function App() {
 
@@ -28,6 +29,12 @@ function App() {
         {page.route === "register" && <Register />}
       </div>
     );
+  } else if (page.route === "onboard") { 
+    return (
+      <div className="flex items-center justify-center min-h-dvh">
+        <Onboarding></Onboarding>
+      </div>
+    );
   }
 
   return (
@@ -35,7 +42,7 @@ function App() {
       <div className="flex-1 min-w-14">
         <Sidebar />
       </div>
-      <div className="w-full max-w-md mx-auto md:max-w-lg">
+      <div className="w-full max-w-md mx-auto md:max-w-lg place-self-end">
         {page.route === "home" && <Body/>}
       </div>
       <div className="flex-1">

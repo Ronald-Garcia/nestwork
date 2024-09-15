@@ -1,16 +1,32 @@
 {
-  "name": "api",
+  "name": "nestwork-api",
   "scripts": {
-    "dev": "tsx watch src/index.ts",
-    "prettier": "prettier --write \"src/**/*.ts\" --config \".prettierrc.json\""
+    "dev": "tsx watch src/server.ts",
+    "prettier": "prettier --write \"src/**/*.ts\" --config \".prettierrc.json\"",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "tsx src/db/migrate.ts",
+    "db:push": "drizzle-kit push",
+    "db:seed": "tsx src/db/seed.ts",
+    "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
-    "@hono/node-server": "^1.12.2",
-    "hono": "^4.6.1"
+    "@faker-js/faker": "^8.4.1",
+    "@hono/node-server": "^1.12.0",
+    "@hono/zod-validator": "^0.2.2",
+    "@lucia-auth/adapter-drizzle": "^1.0.7",
+    "@node-rs/argon2": "^1.8.3",
+    "axios": "^1.7.7",
+    "better-sqlite3": "^11.1.2",
+    "drizzle-orm": "^0.31.2",
+    "hono": "^4.4.11",
+    "lucia": "^3.2.0",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/better-sqlite3": "^7.6.11",
     "@types/node": "^20.11.17",
-    "prettier": "3.3.3",
+    "drizzle-kit": "^0.22.8",
+    "prettier": "3.3.2",
     "tsx": "^4.7.1"
   }
 }

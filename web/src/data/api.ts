@@ -1,5 +1,5 @@
 import { API_URL } from "@/env";
-import type { UserType } from "./types";
+import type { MessageType, OnboardParam, UserType } from "./types";
 
 
 // Sign up a user
@@ -19,7 +19,10 @@ export const signUp = async (
       credentials: "include",
     });
     if (!response.ok) {
-      throw new Error(`API request failed! with status: ${response.status}`);
+      console.log(response);
+      const thing = await response.json();
+      console.log(thing);
+      throw new Error(`API request failed! with message: ${thing}`);
     }
     const { user }: { user: UserType } = await response.json();
     return user;
@@ -40,7 +43,8 @@ export const signUp = async (
       credentials: "include",
     });
     if (!response.ok) {
-      throw new Error(`API request failed! with status: ${response.status}`);
+      const { message }: { message: string } = await response.json();
+      throw new Error(message);
     }
     const { user }: { user: UserType } = await response.json();
     return user;
@@ -53,7 +57,59 @@ export const signUp = async (
       credentials: "include", // allow send and receive cookies
     });
     if (!response.ok) {
-      throw new Error(`API request failed! with status: ${response.status}`);
+      const { message }: { message: string } = await response.json();
+      throw new Error(message);
     }
     return true;
   };
+
+
+  export const onboardUser = async (options: OnboardParam): Promise<boolean> => {
+    console.log(JSON.stringify(options));
+    const response = await fetch(`${API_URL}/onboard`,{
+      method: "POST",
+      credentials: "include",
+      body: JSON.stringify(options)
+    });
+    if (!response.ok) {
+      const { message }: { message: string } = await response.json();
+      throw new Error(message);
+    }
+    return true;
+  }
+  
+  export const validateSession = async () => {
+    const response = await fetch(`${API_URL}/validate-session`, {
+      method: "POST",
+      credentials: "include",
+    });
+  
+    if (!response.ok) {
+      const { message }: { message: string } = await response.json();
+      throw new Error(message);
+    }
+  
+    return true;
+  }
+
+  export const sendMessage = async (chat: string): Promise<MessageType> => {
+
+    console.log(JSON.stringify({ chat }))
+    const response = await fetch(`${API_URL}/chat`,
+      {
+        method: "POST",
+        credentials: "include",
+        body: JSON.stringify({ chat }) 
+      }
+    )
+
+    if (!response.ok) {
+      const { message }: { message: string } = await response.json();
+      throw new Error(message);
+    }
+  
+
+    const message: MessageType = await response.json();
+    return message;
+
+  }

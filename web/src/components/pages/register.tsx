@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 const Register = () => {
-  const { register } = useAuth();
+  const { register, validate } = useAuth();
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -16,7 +16,7 @@ const Register = () => {
     const username = formData.get("username") as string;
     const password = formData.get("password") as string;
     await register(name, username, password);
-    redirectPage($router, "home");
+    redirectPage($router, "onboard");
   };
 
   return (
