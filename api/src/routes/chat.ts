@@ -13,7 +13,7 @@ import { authGuard } from "../middlewares/auth-guard";
 import axios from "axios";
 const chatRoutes = new Hono<Context>();
 
-export const OPENAI_API_KEY = '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';
+export const OPENAI_API_KEY = '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'
 export const API_ENDPOINT = 'https://api.openai.com/v1/chat/completions';
 
 async function chatWithGPT(messages) {
