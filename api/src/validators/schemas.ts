@@ -60,4 +60,4 @@ export const zSchemaError = (
 
 export const PostChatSchema = z.object({
     chat: z.string()
-})
+});

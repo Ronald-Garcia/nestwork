@@ -4,7 +4,6 @@ const UserMenu = () => {
   return (
     <div className="space-y-2 m-3">
       <div>
-        <UserDropdownMenu></UserDropdownMenu>
       </div>
       
     </div>

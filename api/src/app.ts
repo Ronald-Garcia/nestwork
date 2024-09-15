@@ -6,6 +6,7 @@ import { logger } from "hono/logger";
 import { Context } from "./lib/context";
 import { auth } from "./middlewares/auth";
 import chatRoutes from "./routes/chat";
+import conversationRoutes from "./routes/conversation";
 
 const app = new Hono<Context>();
 
@@ -29,6 +30,7 @@ app.get("/", (c) => {
 
 app.route("/", authRoutes);
 app.route("/", chatRoutes);
+app.route("/", conversationRoutes);
 
 app.onError((err, c) => {
   console.error(`${err}`);

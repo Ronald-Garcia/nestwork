@@ -1,12 +1,13 @@
 import { useStore } from "@nanostores/react";
 import Message from "./message";
-import { $messages, switchChat } from "@/lib/store";
+import { $messages } from "@/lib/store";
 import { ScrollArea } from "../ui/scroll-area";
+import { ChatMessageType, MessageType } from "@/data/types";
+import Result from "../results/results";
 
 const Messages = () => {
 
     const messages = useStore($messages);
-    console.log(messages);
     let isChat = true;
     return (
         <ScrollArea className="h-[650px] w-full">
@@ -14,10 +15,18 @@ const Messages = () => {
                 {messages.map((m) => {
                     
                     isChat = !isChat;
-                    return (
-                    <Message key={m.content} content={m.content} chat={isChat} />
-                    )}
-                )}
+                    if(!isChat) {
+                        const mes = m as MessageType;
+                        return (
+                            <Message key={mes.content} content={mes.content} chat={isChat} />
+                        )
+                    } else {
+                        const chatmsg = m as ChatMessageType[];
+                        return (
+                            <Result msg={chatmsg}></Result>
+                        );
+                    }
+                })}
 
             </div>
         </ScrollArea>

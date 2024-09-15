@@ -1,6 +1,6 @@
 import { atom } from "nanostores";
 import { persistentMap } from "@nanostores/persistent";
-import type { MessageType, UserType } from "@/data/types";
+import { ConversationType, type ChatMessageType, type MessageType, type UserType } from "@/data/types";
 import { logger } from "@nanostores/logger";
 
 const DEBUG = true;
@@ -32,18 +32,28 @@ export function setAvatarUrl(url: string) {
     $avatarUrl.set(url);
 }
 
-export const $messages = atom<MessageType[]>([]);
+export const $messages = atom<(MessageType | ChatMessageType[])[]>([]);
 
-export function setMessages(messages: MessageType[]) {
+export function setMessages(messages: (MessageType | ChatMessageType[])[]) {
   $messages.set(messages);
 }
 
-export function addMessage(message: MessageType) {
+export function addMessage(message: MessageType | ChatMessageType[]) {
   $messages.set([...$messages.get(), message]);
 }
 
-export function addMessages(messages: MessageType[]) {
-  $messages.set([...$messages.get(), ...messages]);
+export function addMessages(messages: (MessageType | ChatMessageType[])) {
+  $messages.set([...$messages.get(), messages]);
+}
+
+export const $conversations = atom<ConversationType[]>([]);
+
+
+export function addConvo(convo: ConversationType) {
+  $conversations.set([...$conversations.get(), convo]);
+}
+export function setConvo(convos: ConversationType[]) {
+  $conversations.set(convos);
 }
 
 DEBUG && logger({ $user, $messages });

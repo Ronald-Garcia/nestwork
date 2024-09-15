@@ -39,10 +39,10 @@ function App() {
 
   return (
     <div className="flex min-h-dvh">
-      <div className="flex-1 min-w-14">
+      <div className="flex-1 min-w-[70px] max-w-[400px]">
         <Sidebar />
       </div>
-      <div className="w-full max-w-md mx-auto md:max-w-lg place-self-end">
+      <div className="w-full max-w-[800px] mx-auto place-self-end">
         {page.route === "home" && <Body/>}
       </div>
       <div className="flex-1">

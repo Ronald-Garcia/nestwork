@@ -1,8 +1,11 @@
-import { HomeIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import { HomeIcon, MagnifyingGlassIcon, PlusCircledIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import { useStore } from "@nanostores/react";
 import { $router } from "@/lib/router";
 import { openPage } from "@nanostores/router";
+import UserDropdownMenu from "./user-dropdown";
+import { Separator } from "../ui/separator";
+import Conversations from "../conversation/conversations";
 
 const Sidebar = () => {
   const page = useStore($router);
@@ -13,20 +16,34 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="flex flex-col items-end p-2 space-y-2">
-      <Button
+    <div className="flex border-2 h-full flex-col items-end justify-between p-2 space-y-2">
+      
+      <div>
+        <div className="text-xl font-bold">
+          Conversations
+        </div>
+        <Conversations></Conversations>
+      </div>
+
+        <div className="flex-col space-y-1">
+        <Separator className="my-4"></Separator>
+        <Button
         aria-label={"Home"}
         variant="ghost"
         size="icon"
+        className="w-[50px] h-[50px]"
         onClick={navigateHome}
       >
-        <HomeIcon className="w-5 h-5" />
+        <PlusCircledIcon className="w-[80%] h-[80%]" />
       </Button>
-      <Button aria-label={"Search"} variant="ghost" size="icon">
-        <MagnifyingGlassIcon className="w-5 h-5" />
-      </Button>
+        <div className="justify-self-end">
+          <UserDropdownMenu></UserDropdownMenu>
 
-    </div>
+        </div>
+      </div>
+
+
+      </div>
   );
 };
 

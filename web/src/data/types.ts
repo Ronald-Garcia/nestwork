@@ -15,3 +15,17 @@
   export type MessageType = {
     content: string;
   }
+
+  export type ChatMessageType = {
+    name: string;
+    email: string;
+    department: string;
+    interests: string;
+    projects: string;
+    hobbies: string;
+    picture?: string;
+  }
+
+  export type ConversationType = {
+    title: string;
+  }

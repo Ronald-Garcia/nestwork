@@ -5,7 +5,7 @@ import { hash, verify } from "@node-rs/argon2";
 import { HTTPException } from "hono/http-exception";
 import { eq, or, SQL } from "drizzle-orm";
 import { db } from "../db";
-import { users } from "../db/schema";
+import { aiChats, userChats, users } from "../db/schema";
 import { lucia } from "../db/auth";
 import { Context } from "../lib/context";
 import { auth } from "../middlewares/auth";
@@ -13,8 +13,8 @@ import { authGuard } from "../middlewares/auth-guard";
 import axios from "axios";
 const chatRoutes = new Hono<Context>();
 
-const OPENAI_API_KEY = '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';
-const API_ENDPOINT = 'https://api.openai.com/v1/chat/completions';
+export const OPENAI_API_KEY = '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';
+export const API_ENDPOINT = 'https://api.openai.com/v1/chat/completions';
 
 async function chatWithGPT(messages) {
     try {
@@ -34,6 +34,18 @@ async function chatWithGPT(messages) {
       return null;
     }
   }
+
+  async function generateConversationSubject(userQuery) {
+    const subjectPrompt = [
+      { role: 'system', content: 'Generate a brief, concise subject or title for the following query. Respond with only the subject, no additional text.' },
+      { role: 'user', content: userQuery }
+    ];
+  
+    const subject = await chatWithGPT(subjectPrompt);
+    return subject;
+  }
+  
+  
 async function processUsers(userQuery: string): Promise<number[]> {
     let allUserIds = new Set();
   
@@ -82,6 +94,7 @@ chatRoutes.post("/chat",
         userIds.forEach(id => {
             whereClause.push(eq(users.id, id));
         })
+
     
         const user = await db
             .select({ 
@@ -96,39 +109,9 @@ chatRoutes.post("/chat",
             .from(users)
             .where(or(...whereClause))
             
-    
+          
         return c.json(user);
-        
-
-
     }
 )
-
-
-const getAllUsersForMatch = async (chat: string) => {
-    const userIds: number[] = await processUsers(chat);
-
-    const whereClause: (SQL | undefined)[] = [];
-
-    userIds.forEach(id => {
-        whereClause.push(eq(users.id, id));
-    })
-
-    const user = await db
-        .select({ 
-            name: users.name, 
-            // email: users.email,
-            department: users.department,
-            // interests: users.interests,
-            // projects: users.projects,
-            // hobbies: users.hobbies,
-            // picture: users.picture
-        })
-        .from(users)
-        .where(or(...whereClause))
-        
-
-    return user;
-}
 
 export default chatRoutes;

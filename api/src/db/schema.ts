@@ -1,7 +1,7 @@
 import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
 
 export const users = sqliteTable("users", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
+  id: integer("id").notNull().primaryKey({ autoIncrement: true }),
   name: text("name").notNull(),
   email: text("email"),
   department: text("department"),
@@ -14,7 +14,7 @@ export const users = sqliteTable("users", {
 });
 
 export const groups = sqliteTable("groups", {
-    id: integer("id").primaryKey({ autoIncrement: true }),
+    id: integer("id").unique().primaryKey({ autoIncrement: true }),
     name: text("name").notNull(),
     focus: text("focus"),
     email: text("email"),
@@ -29,8 +29,38 @@ export const sessions = sqliteTable("sessions", {
   expiresAt: integer("expires_at").notNull(),
 });
 
-export const chats = sqliteTable("chats", {
-    id: integer("id").primaryKey(),
-    title: text("title"),
-    history: text("history")
+export const conversations = sqliteTable("conversations", {
+  id: integer("id").notNull().unique().primaryKey(),
+  userId: integer("user_id")
+    .notNull()
+    .references(()=> users.id),
+  title: text("title")
 })
+
+export const userChats = sqliteTable("user_chats", {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    title: text("content"),
+    conversationId: integer("conversation_id")
+      .notNull()
+      .references(() => conversations.id)
+})
+
+
+export const userAiChatRelations = sqliteTable("user_ai_chat_relations", {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    aiChatId: integer("ai_chat_id")
+      .notNull()
+      .references(() => aiChats.id),
+    userId: integer("user_id")
+      .notNull()
+      .references(()=> users.id)
+})
+
+export const aiChats = sqliteTable("ai_chats", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  title: text("content"),
+  conversationId: integer("conversation_id")
+    .notNull()
+    .references(() => conversations.id),
+})
+

@@ -1,5 +1,5 @@
 import { API_URL } from "@/env";
-import type { MessageType, OnboardParam, UserType } from "./types";
+import type { ChatMessageType, ConversationType, MessageType, OnboardParam, UserType } from "./types";
 
 
 // Sign up a user
@@ -92,9 +92,8 @@ export const signUp = async (
     return true;
   }
 
-  export const sendMessage = async (chat: string): Promise<MessageType> => {
+  export const sendMessage = async (chat: string): Promise<ChatMessageType[]> => {
 
-    console.log(JSON.stringify({ chat }))
     const response = await fetch(`${API_URL}/chat`,
       {
         method: "POST",
@@ -109,7 +108,45 @@ export const signUp = async (
     }
   
 
-    const message: MessageType = await response.json();
+    const message: ChatMessageType[] = await response.json();
     return message;
 
+  }
+
+
+  export const createConversation = async (content: string): Promise<ConversationType> => {
+
+    const response = await fetch(`${API_URL}/conversation`,
+      {
+        method: "POST",
+        credentials: "include",
+        body: JSON.stringify({content})
+      }
+    )
+
+    if (!response.ok) {
+      const { message }: { message: string } = await response.json();
+      throw new Error(message);
+    }
+
+    const message: ConversationType = await response.json();
+    return message;
+  }
+
+  export const getConversations = async (): Promise<ConversationType[]> => {
+
+    const response = await fetch(`${API_URL}/conversation`,
+      {
+        method: "GET",
+        credentials: "include",
+      }
+    )
+
+    if (!response.ok) {
+      const { message }: { message: string } = await response.json();
+      throw new Error(message);
+    }
+
+    const message: ConversationType[] = await response.json();
+    return message;
   }

@@ -1,11 +1,22 @@
-import { addMessage, addMessages } from "@/lib/store";
+import { addConvo, addMessage, addMessages } from "@/lib/store";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { useRef, useState } from "react";
-import { sendMessage } from "@/data/api";
+import { useEffect, useRef, useState } from "react";
+import { createConversation, sendMessage } from "@/data/api";
+import { ChatMessageType, ConversationType, MessageType } from "@/data/types";
 
 
 const Footer = () => {
+
+    const [firstEnter, setFirstEnter] = useState(true);
+
+    useEffect( () => {
+        setFirstEnter(true);
+    }, [])
+
+    useEffect( ()=> {
+        console.log(firstEnter);
+    }, [firstEnter])
     const [content, setContent] = useState("");
     const inputRef = useRef(null);
     const sendButton = useRef(null);
@@ -15,10 +26,16 @@ const Footer = () => {
     }
 
     const addNewMessage = async () => {
+        if (firstEnter) {
+            setFirstEnter(false);
+            const convo: ConversationType = await createConversation(content);
+            convo.title = "TESTING";
+            addConvo(convo);
+        }
         addMessage({ content })
         cleanUp();
         const messageToAdd = await sendMessage(content);
-        addMessage(messageToAdd);
+        addMessages(messageToAdd as MessageType | ChatMessageType[]);
     }
 
     return (
