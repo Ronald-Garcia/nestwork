@@ -1,34 +1,56 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
+import "./index.css";
+import { useStore } from "@nanostores/react";
+import { $router } from "./lib/router";
+import Login from "./components/pages/login";
+import Register from "./components/pages/register";
+import Sidebar from "./components/layout/sidebar";
+import Body from "./components/layout/body";
+import { Toaster } from "./components/ui/toaster";
+import UserMenu from "./components/layout/user-menu";
+import Onboarding from "./components/pages/onboarding";
 
 function App() {
-  const [count, setCount] = useState(0);
+
+  const [updateMessages, setUpdateMessages] = useState(0);
+  const page = useStore($router);
+
+  if (!page) {
+    return (
+      <div className="flex items-center justify-center min-h-dvh">
+        404 Not Found
+      </div>
+    );
+  }
+
+  if (page.route === "login" || page.route === "register") {
+    return (
+      <div className="flex items-center justify-center min-h-dvh">
+        {page.route === "login" && <Login />}
+        {page.route === "register" && <Register />}
+      </div>
+    );
+  } else if (page.route === "onboard") { 
+    return (
+      <div className="flex items-center justify-center min-h-dvh">
+        <Onboarding></Onboarding>
+      </div>
+    );
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="flex min-h-dvh">
+      <div className="flex-1 min-w-[70px] max-w-[400px]">
+        <Sidebar update={updateMessages} setUpdate={setUpdateMessages} />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+      <div className="w-full max-w-[800px] mx-auto place-self-end">
+        {page.route === "home" && <Body update={updateMessages}/>}
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+      <div className="flex-1">
+        <UserMenu />
+      </div>
+      <Toaster />
+    </div>
   );
 }
 
